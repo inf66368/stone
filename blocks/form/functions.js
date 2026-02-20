@@ -1,3 +1,5 @@
+import { numberRegex } from './constant.js';
+
 /**
  * Get Full Name
  * @name getFullName Concats first name and last name
@@ -42,5 +44,34 @@ function days(endDate, startDate) {
   return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 }
 
+/**
+* Masks the first 5 digits of the mobile number with *
+* @name maskMobileNumber Mask Number
+* @param {*} mobileNumber
+* @returns {string} returns the mobile number with first 5 digits masked
+*/
+function maskMobileNumber(mobileNumber) {
+  if (!mobileNumber) {
+    return '';
+  }
+  const value = mobileNumber.toString();
+  // Mask first 5 digits and keep the rest
+  return ` ${'*'.repeat(5)}${value.substring(5)}`;
+}
+
+/**
+ * Validates if a given string is a valid mobile number.
+ * Accepts mobile numbers in Indian format with optional country code (0 or 91).
+ * Valid numbers must start with 6-9 and contain 10 digits after the prefix.
+ * @name validateMobileNumber Validate Number
+ * @param {string} mobileNumber - The mobile number to validate
+ * @returns {boolean} True if the mobile number is valid, false otherwise
+ */
+function validateMobileNumber(mobileNumber) {
+  return numberRegex.test(mobileNumber);
+}
+
 // eslint-disable-next-line import/prefer-default-export
-export { getFullName, days, submitFormArrayToString };
+export {
+  getFullName, days, submitFormArrayToString, maskMobileNumber, validateMobileNumber,
+};

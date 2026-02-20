@@ -77,3 +77,5 @@ export function setSubmitBaseUrl(url) {
 export function getSubmitBaseUrl() {
   return submitBaseUrl;
 }
+
+export const numberRegex = /^(0|91)?[6-9]\d{9}$/;
