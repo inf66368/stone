@@ -48,15 +48,15 @@ function days(endDate, startDate) {
 * Masks the first 5 digits of the mobile number with *
 * @name maskMobileNumber Mask Number
 * @param {*} mobileNumber
-* @returns {string} returns the mobile number with first 5 digits masked
+* @returns {string} predefined text and first 5 digits masked
 */
 function maskMobileNumber(mobileNumber) {
   if (!mobileNumber) {
-    return '';
+    return `We've sent a 6-digit OTP to your registered mobile number ${mobileNumber}.`;
   }
-  const value = mobileNumber.toString();
-  // Mask first 5 digits and keep the rest
-  return ` ${'*'.repeat(5)}${value.substring(5)}`;
+  let number = mobileNumber.toString();
+  number = '*'.repeat(5) + number.substring(5);
+  return `We've sent a 6-digit OTP to your registered mobile number ${number}.`;
 }
 
 /**
