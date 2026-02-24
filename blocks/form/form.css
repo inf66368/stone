@@ -844,7 +844,6 @@ main .form form select[multiple] {
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    padding: 10px;
 }
 
 .form form .panel-wrapper.field-footer p {
@@ -906,4 +905,13 @@ main .form form .panel-wrapper.field-help-modal .modal-content button {
     background: var(--btn-disabled-color);
     border: none;
     color: white;
+}
+
+.form form .panel-wrapper.field-footer-frag {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    margin: 0;
 }

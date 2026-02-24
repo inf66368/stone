@@ -72,27 +72,19 @@ function validateMobileNumber(mobileNumber) {
 }
 
 /**
- * Calculates the monthly interest rate from an annual interest rate.
- * @param {number} annualRate - The annual interest rate as a percentage
- * @returns {number} The monthly interest rate as a decimal
- */
-function monthlyInterestRate(annualRate) {
-  return annualRate / (12 * 100);
-}
-
-/**
  * Calculate Equated Monthly Installment (EMI).
+ * @name calculateEMI Calculate EMI
  * @param {number} principal - Principal
  * @param {number} tenure - Number of months
- * @param {number} roi - Monthly interest rate
+ * @param {number} annualRate - Annual interest rate
  * @returns {number} - EMI per month
  */
-function calculateEMI(principal, tenure, roi) {
-  if (roi === 0) return Math.ceil(principal / tenure);
-
-  const R = 1 + roi;
+function calculateEMI(principal, tenure, annualRate) {
+  if (annualRate === 0) return Math.ceil(principal / tenure);
+  const monthlyRate = annualRate / (12 * 100);
+  const R = 1 + monthlyRate;
   const expo = R ** tenure;
-  const emi = Math.round((principal * roi * expo) / (expo - 1));
+  const emi = Math.round((principal * monthlyRate * expo) / (expo - 1));
 
   return emi;
 }
@@ -100,5 +92,5 @@ function calculateEMI(principal, tenure, roi) {
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName, days, submitFormArrayToString, maskMobileNumber, validateMobileNumber,
-  monthlyInterestRate, calculateEMI,
+  calculateEMI,
 };
