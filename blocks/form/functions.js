@@ -120,5 +120,5 @@ function formatINRCurrency(value) {
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName, days, submitFormArrayToString, maskMobileNumber, validateMobileNumber,
-  calculateEMI, formatIndianNumber, formatINRCurrency,
+  calculateEMI, formatIndianNumber, formatINRCurrency
 };
