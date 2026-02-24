@@ -117,8 +117,33 @@ function formatINRCurrency(value) {
   });
 }
 
+/**
+ * Formats a text value by appending text to it.
+ * @name formatText Format Text
+ * @param {string|number} value - The value to format
+ * @param {boolean} space - space between value & appended text
+ * @param {string} appendText - The text to append
+ * @returns {string} The appended text with the value
+ */
+function formatText(value, space, appendText) {
+  if (space) {
+    return `${value} ${appendText}`;
+  }
+  return `${value}${appendText}`;
+}
+
+/**
+ * Formats a PAN by masking first 5 characters.
+ * @name formatPanNumber Format PAN
+ * @param {string} panNumber - The PAN number
+ * @returns {string} The formatted PAN with *
+ */
+function formatPanNumber(panNumber) {
+  return `***** *${panNumber.slice(6)}`.toUpperCase();
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName, days, submitFormArrayToString, maskMobileNumber, validateMobileNumber,
-  calculateEMI, formatIndianNumber, formatINRCurrency
+  calculateEMI, formatIndianNumber, formatINRCurrency, formatText, formatPanNumber,
 };
