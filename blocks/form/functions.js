@@ -89,7 +89,6 @@ function calculateEMI(principal, tenure, annualRate) {
   return emi;
 }
 
-
 /**
  * Formats a number according to Indian numbering system (with commas).
  * @name formatIndianNumber Format Number
@@ -99,10 +98,9 @@ function calculateEMI(principal, tenure, annualRate) {
 function formatIndianNumber(value) {
   return value.toLocaleString('en-IN', {
     maximumFractionDigits: 0,
-    minimumFractionDigits: 0
+    minimumFractionDigits: 0,
   });
 }
-
 
 /**
  * Formats a numeric value as Indian Rupee (INR) currency string.
@@ -115,13 +113,12 @@ function formatINRCurrency(value) {
     style: 'currency',
     currency: 'INR',
     maximumFractionDigits: 0,
-    minimumFractionDigits: 0
+    minimumFractionDigits: 0,
   });
 }
-
 
 // eslint-disable-next-line import/prefer-default-export
 export {
   getFullName, days, submitFormArrayToString, maskMobileNumber, validateMobileNumber,
-  calculateEMI, formatIndianNumber,
+  calculateEMI, formatIndianNumber, formatINRCurrency,
 };
