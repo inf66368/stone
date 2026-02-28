@@ -1,4 +1,6 @@
-function updateBubble(input, element) {
+import { subscribe } from '../../rules/index.js';
+
+function updateBubble(input, element, type) {
   const step = input.step || 1;
   const max = input.max || 0;
   const min = input.min || 1;
@@ -6,25 +8,37 @@ function updateBubble(input, element) {
   const current = Math.ceil((value - min) / step);
   const total = Math.ceil((max - min) / step);
   const bubble = element.querySelector('.range-bubble');
-  // during initial render the width is 0. Hence using a default here.
   const bubbleWidth = bubble.getBoundingClientRect().width || 31;
   const left = `${(current / total) * 100}% - ${(current / total) * bubbleWidth}px`;
-  bubble.innerText = `${value}`;
+  if (type) {
+    bubble.innerText = Number(value).toLocaleString('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0,
+      minimumFractionDigits: 0,
+    });
+  } else {
+    bubble.innerText = `${value}m`;
+  }
   const steps = {
     '--total-steps': Math.ceil((max - min) / step),
     '--current-steps': Math.ceil((value - min) / step),
   };
-  const style = Object.entries(steps).map(([varName, varValue]) => `${varName}:${varValue}`).join(';');
+  const style = Object.entries(steps)
+    .map(([varName, varValue]) => `${varName}:${varValue}`)
+    .join(';');
   bubble.style.left = `calc(${left})`;
   element.setAttribute('style', style);
 }
-export default async function decorate(fieldDiv, fieldJson) {
-  const input = fieldDiv.querySelector('input');
+
+export default async function decorate(element, fieldJson, container, formId) {
+  const input = element.querySelector('input');
   // modify the type in case it is not range.
   input.type = 'range';
   input.min = input.min || 1;
   input.max = input.max || 100;
   input.step = fieldJson?.properties?.stepValue || 1;
+  const type = input.min >= 20000;
   // create a wrapper div to provide the min/max and current value
   const div = document.createElement('div');
   div.className = 'range-widget-wrapper decorated';
@@ -35,16 +49,48 @@ export default async function decorate(fieldDiv, fieldJson) {
   rangeMinEl.className = 'range-min';
   const rangeMaxEl = document.createElement('span');
   rangeMaxEl.className = 'range-max';
-  rangeMinEl.innerText = `${input.min || 1}`;
-  rangeMaxEl.innerText = `${input.max}`;
+  if (type) {
+    rangeMinEl.innerText = Intl.NumberFormat('en-IN', {
+      notation: 'compact',
+    }).format(input.min || 1);
+    rangeMaxEl.innerText = Intl.NumberFormat('en-IN', {
+      notation: 'compact',
+    }).format(input.max);
+  } else {
+    rangeMinEl.innerText = `${input.min || 1}m`;
+    rangeMaxEl.innerText = `${input.max}m`;
+  }
   div.appendChild(hover);
   // move the input element within the wrapper div
   div.appendChild(input);
   div.appendChild(rangeMinEl);
   div.appendChild(rangeMaxEl);
   input.addEventListener('input', (e) => {
-    updateBubble(e.target, div);
+    updateBubble(e.target, div, type);
   });
-  updateBubble(input, div);
-  return fieldDiv;
+  updateBubble(input, div, type);
+
+  subscribe(element, formId, (fieldDiv, fieldModel) => {
+    fieldModel.subscribe((e) => {
+      const { payload } = e;
+      payload?.changes?.forEach((change) => {
+        if (change?.propertyName === 'value') {
+          input.value = change.currentValue;
+        }
+        if (change?.propertyName === 'maximum') {
+          input.max = change.currentValue;
+          if (type) {
+            rangeMaxEl.innerText = Intl.NumberFormat('en-IN', {
+              notation: 'compact',
+            }).format(input.max);
+          } else {
+            rangeMaxEl.innerText = `${input.max}m`;
+          }
+        }
+        updateBubble(input, div, type);
+      });
+    });
+  });
+
+  return element;
 }
