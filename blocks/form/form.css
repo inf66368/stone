@@ -1211,3 +1211,12 @@ main .form form .panel-wrapper.field-help-modal .modal-content button::after {
     font-weight: 600;
     color: #000;
 }
+
+.form form .button-wrapper.field-confirm-btn {
+    text-align: end;
+}
+
+.form form .button-wrapper.field-back-btn button::after {
+    transform: translateY(-50%) rotate(180deg);
+    inline-size: 10rem;
+}
