@@ -892,7 +892,6 @@ main .form form select[multiple] {
 
 .form form .button-wrapper button:hover {
     background: var(--btn-active-color);
-    border: none;
 }
 
 main .form form .button-wrapper.field-help-btn > button {
@@ -938,7 +937,6 @@ main .form form .panel-wrapper.field-help-modal .modal-content button::after {
 
 .form form .button-wrapper button:hover[disabled] {
     background: var(--btn-disabled-color);
-    border: none;
     color: white;
 }
 
@@ -1219,4 +1217,33 @@ main .form form .panel-wrapper.field-help-modal .modal-content button::after {
 .form form .button-wrapper.field-back-btn button::after {
     transform: translateY(-50%) rotate(180deg);
     inline-size: 10rem;
+}
+
+.form form .button-wrapper.field-edit-number button {
+    background: transparent;
+    border: 1px solid var(--form-input-color);
+    color: #000;
+    padding: 8px 9px;
+    position: relative;
+    font-size: 12pt;
+}
+
+.form form .button-wrapper.field-edit-number button:hover {
+    background: var(--hdfc-dark-bg-color);
+    color: #fff;
+    padding: 7px 8px;
+    position: relative;
+    font-size: 12pt;
+}
+
+.form form .button-wrapper.field-edit-number button::after {
+    content: none;
+}
+
+.form form .plain-text-wrapper.field-btm-text {
+    padding: 20px 20px 0 20px;
+}
+
+.form form .plain-text-wrapper.field-btm-text p {
+    margin: 0;
 }
