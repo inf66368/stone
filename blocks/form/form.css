@@ -1,8 +1,8 @@
 :root {
     --background-color-primary: #fff;
-    --label-color: #666;
-    --border-color: #818a91;
-    --form-error-color: #ff5f3f;
+    --label-color: #000;
+    --border-color: #b3b9be;
+    --form-error-color: #eb3c36;
     --button-primary-color: #5f8dda;
     --button-secondary-color: #666;
     --button-primary-hover-color: #035fe6;
@@ -14,7 +14,7 @@
     --form-columns: 12;
     --form-field-horz-gap: 40px;
     --form-field-vert-gap: 20px;
-    --form-invalid-border-color: #ff5f3f;
+    --form-invalid-border-color: var(--form-error-color);
     --form-input-padding: 0.75rem 0.6rem;
     --form-input-font-size: 1rem;
     --form-input-disable-color: #ebebe4;
@@ -26,15 +26,17 @@
     --form-paragraph-font-style: none;
     --form-paragraph-font-size: var(--form-font-size-s);
     --form-label-color: var(--label-color);
+    --form-input-color: #4b5563;
     --form-label-font-size: var(--form-font-size-s);
     --form-label-font-weight: 400;
     --form-title-font-weight: 600;
+    --form-legend-font-weight: 800;
     --form-fieldset-border: 0;
     --form-fieldset-marign: 0;
     --form-fieldset-columns: 1;
     --form-fieldset-legend-color: var(--form-label-color);
-    --form-fieldset-legend-font-size: var(--form-label-font-size);
-    --form-fieldset-legend-font-weight: var(--form-title-font-weight);
+    --form-fieldset-legend-font-size: var(--form-font-size-m);
+    --form-fieldset-legend-font-weight: var(--form-legend-font-weight);
     --form-fieldset-legend-border: none;
     --form-fieldset-legend-padding: 0;
     --form-button-color: var(--background-color-primary);
@@ -71,11 +73,21 @@
     --form-card-transition: all 0.15s ease-in-out;
 
     /* Capstone Specific Variables */
-    --hdfc-bg-color: #2a4c8b;
+    --hdfc-bg-color: #e6f4fd;
+    --hdfc-dark-bg-color: #2a4c8b;
     --btn-active-color: #1c3fca;
     --btn-disabled-color: #a3baf9;
     --icon-question: url("../../icons/question.svg");
     --icon-arrow-right: url("../../icons/right-arrow.svg");
+    --icon-arrow-right-blue: url("../../icons/right-arrow-blue.svg");
+    --icon-info: url("../../icons/info.svg");
+    --accordion: #f2f6fd;
+    --accordion-legend-background: linear-gradient(
+        90deg,
+        #f2f6fd 0%,
+        #d1ddfc 100%
+    );
+    --accordion-background: linear-gradient(90deg, #fff 0%, #f2f6fd 100%);
 }
 
 * {
@@ -97,9 +109,10 @@ form:not(.edit-mode) [data-visible="false"] {
 }
 
 main .form-container {
-    background-color: var(--form-background-color);
+    background-color: var(--background-color-primary);
     padding: var(--form-padding);
     width: var(--form-width);
+    margin-bottom: 80px;
 }
 
 main .form {
@@ -133,7 +146,7 @@ main .form .field-description {
 
 main .form form .field-invalid .field-description {
     color: var(--form-error-color);
-    font-weight: 700;
+    margin-top: -10px;
 }
 
 /**
@@ -168,14 +181,14 @@ main .form select {
     background-color: var(--form-input-background-color);
     border: var(--form-input-border-size) solid var(--form-input-border-color);
     width: 100%;
-    height: 42px;
-    color: var(--form-label-color);
+    height: 50px;
+    color: var(--form-input-color);
     padding: var(--form-input-padding);
     font-size: var(--form-input-font-size);
     max-width: unset;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    border-radius: 0.25rem;
+    border-radius: 10px;
 }
 
 main .form input:hover,
@@ -279,6 +292,11 @@ main .form form .radio-wrapper {
 main .form form fieldset > .radio-wrapper,
 main .form form fieldset > .checkbox-wrapper {
     margin-left: var(--form-field-gap);
+}
+
+.form form .number-wrapper.field-loan-tenure label,
+.form form .number-wrapper.field-loan-amount label {
+    font-weight: var(--form-legend-font-weight);
 }
 
 main .form .radio-wrapper label,
@@ -802,10 +820,12 @@ main .form form .checkbox-group-wrapper.horizontal .field-description {
 }
 
 main div.form-wrapper {
+    position: relative;
     background: white;
-    padding: 40px;
+    padding: 0 30px 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 24px rgb(0 0 0 / 8%);
+    box-shadow: #000 0 3px 8px;
+    z-index:999;
 }
 
 /* Responsive adjustments for mobile */
@@ -830,7 +850,7 @@ main .form form select[multiple] {
 
 /* Capstone specific overrides */
 .form form .panel-wrapper.field-header {
-    background: var(--hdfc-bg-color);
+    background: var(--hdfc-dark-bg-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -839,16 +859,14 @@ main .form form select[multiple] {
 }
 
 .form form .panel-wrapper.field-footer {
-    background: var(--hdfc-bg-color);
+    background: var(--hdfc-dark-bg-color);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
     margin: 0;
 }
 
 .form form .panel-wrapper.field-footer p {
     color: white;
-    justify-content: space-between;
 }
 
 .form form .button-wrapper button {
@@ -869,7 +887,7 @@ main .form form select[multiple] {
     right: 0.875rem;
     top: 50%;
     transform: translateY(-50%);
-    background: no-repeat center / contain url("../../icons/right-arrow.svg");
+    background: no-repeat center / contain var(--icon-arrow-right);
 }
 
 .form form .button-wrapper button:hover {
@@ -892,9 +910,26 @@ main .form form .button-wrapper.field-help-btn > button:hover {
     border: none;
 }
 
+main .form form .panel-wrapper.field-help-modal .modal dialog {
+    width: 30vw;
+}
+
+main .form form .panel-wrapper.field-help-modal .modal-content {
+    text-align: center;
+}
+
 main .form form .panel-wrapper.field-help-modal .modal-content button {
     width: 100%;
     justify-self: stretch;
+    color: #004b8d;
+    border: 1px dashed #004b8d;
+    background: white;
+    font-weight: 600;
+    justify-content: flex-start;
+}
+
+main .form form .panel-wrapper.field-help-modal .modal-content button::after {
+    background: no-repeat center / contain var(--icon-arrow-right-blue);
 }
 
 .form form .button-wrapper button[disabled] {
@@ -907,11 +942,272 @@ main .form form .panel-wrapper.field-help-modal .modal-content button {
     color: white;
 }
 
-.form form .panel-wrapper.field-footer-frag {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 999;
+.form form .plain-text-wrapper.field-welcome-text > p {
+    font-size: var(--form-font-size-m);
+    font-weight: 800;
+    color: black;
+}
+
+.form form .panel-wrapper.field-details-panel {
+    align-items: self-start;
+}
+
+.form form .panel-wrapper.field-number {
+    margin-top: 54px;
+}
+
+.form form .plain-text-wrapper.field-kycnote,
+.form form .plain-text-wrapper.field-salaried-note {
+    background: #fef8e6;
+    border: 1px solid #e5ad71;
+    border-radius: 10px;
+    font-weight: 400;
+    padding: 0.5rem;
+}
+
+.form form .plain-text-wrapper.field-kycnote p,
+.form form .plain-text-wrapper.field-salaried-note p {
     margin: 0;
+    font-size: 9pt;
+    color: #764714;
+}
+
+.form form .plain-text-wrapper.field-kycnote p{
+    font-size: 12pt;
+}
+
+
+.form form .plain-text-wrapper.field-self-note {
+    background: #fdefed;
+    border: 1px solid #c21d53;
+    border-radius: 10px;
+    font-weight: 400;
+    padding: 0.5rem;
+}
+
+.form form .plain-text-wrapper.field-self-note p {
+    margin: 0;
+    font-size: 9pt;
+    color: #951f1f;
+}
+
+.form form .plain-text-wrapper.field-btm-text {
+    border-top: 2px solid #d5d0d0;
+}
+
+.form form .plain-text-wrapper.field-enter-otp p {
+    margin: 0;
+}
+
+.form form .panel-wrapper.field-intro-panel {
+    align-items: center;
+    background: var(--hdfc-bg-color);
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.form form .plain-text-wrapper.field-offer-text {
+    font-weight: var(--form-title-font-weight);
+}
+
+.form form fieldset .panel-wrapper.field-loan-result {
+    background: #fef8e6;
+    border-radius: 20px;
+    height: fit-content;
+}
+
+.form form .panel-wrapper.field-sum-panel {
+    padding: 20px;
+}
+
+.form form fieldset .plain-text-wrapper.field-emi-title p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 0;
+}
+
+.form form .plain-text-wrapper.field-loan-amount-txt {
+    font-size: 30px;
+    font-weight: 700;
+    font-family: "Open Sans Variable", "Open Sans", roboto-fallback, sans-serif;
+    margin: 0;
+    background-image: linear-gradient(to right, #fff0 33%, #c1c1c1 0%);
+    background-position: bottom;
+    background-size: 9px 1.5px;
+    background-repeat: repeat-x;
+    padding-bottom: 13px;
+}
+
+.form form .text-wrapper.field-loan-label:has(input[readonly]),
+.form form .panel-wrapper.field-personal-details-panel .text-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-personal-details-panel .number-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-details-fields .text-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-details-fields .number-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-result .number-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-result .text-wrapper:has(input[readonly]) {
+    border-left: 3px solid #f99f35;
+    padding-left: 12px;
+    margin-top: 20px;
+}
+
+.form form .text-wrapper.field-loan-label:has(input[readonly]),
+.form form .panel-wrapper.field-personal-details-panel .text-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-personal-details-panel .number-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-details-fields .text-wrapper:has(input[readonly]),
+.form form .panel-wrapper.field-loan-details-fields .number-wrapper:has(input[readonly]) {
+    border-left: 3px solid #9fb7f9;
+}
+
+.form form .text-wrapper.field-loan-label > input[readonly],
+.form form .panel-wrapper.field-personal-details-panel .number-wrapper > input[readonly],
+.form form .panel-wrapper.field-personal-details-panel .text-wrapper > input[readonly],
+.form form .panel-wrapper.field-loan-details-fields .number-wrapper > input[readonly],
+.form form .panel-wrapper.field-loan-details-fields .text-wrapper > input[readonly],
+.form form .panel-wrapper.field-loan-result .number-wrapper > input[readonly],
+.form form .panel-wrapper.field-loan-result .text-wrapper > input[readonly] {
+    pointer-events: none;
+    background: transparent;
+    border: none;
+    height: 25px;
+    color: #000;
+    font-size: 15pt;
+    margin: 0;
+    padding: 0;
+}
+
+.form form .text-wrapper.field-loan-label > label,
+.form form .panel-wrapper.field-loan-details-fields .number-wrapper > label,
+.form form .panel-wrapper.field-loan-details-fields .text-wrapper > label,
+.form form .panel-wrapper.field-personal-details-panel .number-wrapper > label,
+.form form .panel-wrapper.field-personal-details-panel .text-wrapper > label,
+.form form .panel-wrapper.field-loan-result .number-wrapper > label,
+.form form .panel-wrapper.field-loan-result .text-wrapper > label {
+    font-size: 11pt;
+    color: #4b5563;
+}
+
+.form form .plain-text-wrapper.field-subject p {
+    margin: 0;
+    color: #fff;
+    font-size: 10pt;
+}
+
+.form form .plain-text-wrapper.field-subject{
+  position: relative;
+  padding: 20px 20px 20px 35px;
+  margin: 0;
+  background: #f99f35;
+  border-radius: 0 0 20px 20px;
+}
+
+.form form .plain-text-wrapper.field-subject::before {
+    content: '';
+    position: absolute;
+    background: no-repeat center / contain var(--icon-info);
+    background-size: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    left: 10px;
+}
+
+/* Accordion Overrides for Capstone */
+.form fieldset.accordion legend.accordion-legend {
+    background: #f2f6fd !important;
+    background: var(--accordion-legend-background) !important;
+    border-radius: 20px 20px 0 0 !important;
+}
+
+.form .accordion > fieldset > legend::after {
+    color: var(--btn-active-color) !important;
+    font-size: 25px !important;
+    transform: rotate(-225deg) !important;
+}
+
+.form .accordion > fieldset.accordion-collapse > legend::after {
+    transform: rotate(-45deg) !important;
+}
+
+.form fieldset.accordion > fieldset:not(.checkbox-group-wrapper, .radio-group-wrapper) {
+    background: var(--accordion-background) !important;
+    border-radius: 20px;
+    padding-bottom: 20px;
+}
+
+.form form .text-wrapper.field-schedule-of-charges > input[readonly] {
+    color:#3454D0 !important;
+}
+
+.form form .text-wrapper.field-app-no > label {
+   color: var(--form-input-color)
+}
+
+.form form .text-wrapper.field-app-no > input[readonly] {
+    border : none;
+    background: transparent;
+    pointer-events: none;
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+    font-family: "Open Sans Variable", "Open Sans", roboto-fallback, sans-serif;
+    margin: 0;
+    padding:0;
+}
+
+.form form .plain-text-wrapper.field-contactnote {
+    background-image: linear-gradient(to right, #fff0 33%, #c1c1c1 0%);
+    background-position: bottom;
+    background-size: 9px 1.5px;
+    background-repeat: repeat-x;
+    padding-bottom: 13px;
+}
+
+
+.form form .plain-text-wrapper.field-contactnote p {
+    color: var(--form-input-color);
+}
+
+.form form .plain-text-wrapper.field-disbursementnote {
+    background: #F3F6FD;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+.form form .plain-text-wrapper.field-disbursementnote p {
+    margin: 0;
+    color: #2A4BCD;
+}
+
+.form form .panel-wrapper.field-summary-panel {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.form form .panel-wrapper.field-amount-panel {
+    padding: 10px;
+}
+
+.form form .plain-text-wrapper.field-loan-title,
+.form form .plain-text-wrapper.field-tenure-title {
+    display: flex;
+    align-items: center;
+}
+
+.form form .plain-text-wrapper.field-loan-title p,
+.form form .plain-text-wrapper.field-tenure-title p {
+    margin:0;
+    font-weight: var(--form-legend-font-weight);
+}
+
+.form form .number-wrapper.field-loan-amount input,
+.form form .number-wrapper.field-loan-tenure input {
+    text-align: center;
+    font-size: 15pt;
+    font-weight: 600;
+    color: #000;
 }

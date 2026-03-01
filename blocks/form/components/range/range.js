@@ -11,12 +11,9 @@ function updateBubble(input, element, type) {
   const bubbleWidth = bubble.getBoundingClientRect().width || 31;
   const left = `${(current / total) * 100}% - ${(current / total) * bubbleWidth}px`;
   if (type) {
-    bubble.innerText = Number(value).toLocaleString('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-      minimumFractionDigits: 0,
-    });
+    bubble.innerText = Intl.NumberFormat('en-IN', {
+      notation: 'compact',
+    }).format(value);
   } else {
     bubble.innerText = `${value}m`;
   }
