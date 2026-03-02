@@ -220,6 +220,7 @@ main .form input[type="radio"] {
     margin: 0;
     position: static;
     z-index: 1;
+    accent-color: var(--btn-active-color);
 }
 
 main .form textarea {
